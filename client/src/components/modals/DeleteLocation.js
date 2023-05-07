@@ -2,11 +2,9 @@ import React, {useState} from 'react';
 import '../../App.css';
 import {useMutation} from '@apollo/client';
 import ReactModal from 'react-modal';
-import CloseIcon from '@mui/icons-material/Close'
+
 //Import the file where my query constants are defined
 import queries from '../../queries';
-import { IconButton } from '@mui/material';
-// imprt IconButton
 
 //For react-modal
 ReactModal.setAppElement('#root');
@@ -64,13 +62,6 @@ function DeleteLocation(props) {
 				information on Mutations
 			*/}
         <div>
-          <IconButton
-              className="close-button"
-              onClick={handleCloseDeleteModal}
-              sx={{ position: 'absolute', top: 0, right: 0, zIndex: 1 }}
-          >
-              <CloseIcon />
-          </IconButton>
           <p>
             Are you sure you want to delete {location.name}?
           </p>
