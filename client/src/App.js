@@ -1,24 +1,70 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import {
+  NavLink,
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from 'react-router-dom';
+import Locations from './components/Locations';
+import AddLocation from './components/AddLocation';
+import Distances from './components/Distances';
+import {
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+  ApolloProvider
+} from '@apollo/client';
+import NotFound from './components/NotFound';
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: 'http://localhost:4000'
+  })
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <div>
+          <header className='App-header'>
+            <h1 className='App-title'>
+              Locations from Four Square API
+            </h1>
+            <br/>
+            <nav>
+              <NavLink className='showlink' to='/'>
+                Locations
+              </NavLink>
+              <NavLink className='showlink' to='/my-likes'>
+                Liked Locations
+              </NavLink>
+
+              <NavLink className='showlink' to='/my-locations'>
+                My Locations
+              </NavLink>
+              <NavLink className='showlink' to='/new-locations'>
+                Add Location
+              </NavLink>
+              <NavLink className='showlink' to='/distance'>
+                Distance Tracker
+              </NavLink>
+            </nav>
+          </header>
+          <Routes>
+            {/* <Switch> */}
+              <Route path='/' element={<Locations mode="locations"/>} />
+              <Route path='/my-likes' element={<Locations mode="likes"/>} />
+              <Route path='/my-locations' element={<Locations mode="myLocations"/>} />
+              <Route path='/new-locations' element={<AddLocation/>} />
+              <Route path='/distance' element={<Distances/>} />
+              <Route path='*' element={<NotFound/>}/>
+            {/* </Switch> */}
+          </Routes>
+        </div>
+      </Router>
+    </ApolloProvider>
   );
 }
 
